@@ -33,15 +33,28 @@ func Saludar(rw http.ResponseWriter, r *http.Request) {
 
 func main() {
 
+	//Mux
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", Hola)
+	mux.HandleFunc("/error", Error)
+	mux.HandleFunc("/page", PagianaNF)
+	mux.HandleFunc("/saludar", Saludar)
+
 	//Router
-	http.HandleFunc("/", Hola)
-	http.HandleFunc("/page", PagianaNF)
-	http.HandleFunc("/error", Error)
-	http.HandleFunc("/saludar", Saludar)
+	// http.HandleFunc("/", Hola)
+	// http.HandleFunc("/page", PagianaNF)
+	// http.HandleFunc("/error", Error)
+	// http.HandleFunc("/saludar", Saludar)
 
 	//Crear servidor
-	fmt.Println("El servidor esta corriendo en el puerto 5000")
+
+	server := &http.Server{
+		Addr:    "localhost:5000",
+		Handler: mux,
+	}
+	fmt.Println("El servidor esta corriendo en el puerto 6000")
 	fmt.Println(("Run server: http://localhost:5000/"))
-	log.Fatal(http.ListenAndServe("localhost:5000", nil))
+	// log.Fatal(http.ListenAndServe("localhost:5000", mux))
+	log.Fatal(server.ListenAndServe())
 
 }
