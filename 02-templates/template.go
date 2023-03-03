@@ -9,12 +9,17 @@ import (
 
 //Estructuras
 
+// type Usuarios struct {
+// 	UserName string
+// 	Edad     int
+// 	Activo   bool
+// 	Admin    bool
+// 	Cursos   []Curso
+// }
+
 type Usuarios struct {
 	UserName string
 	Edad     int
-	Activo   bool
-	Admin    bool
-	Cursos   []Curso
 }
 
 type Curso struct {
@@ -27,22 +32,45 @@ func Saludar(nombre string) string {
 	return "Hola " + nombre + " desde una función"
 }
 
+var templates = template.Must(template.New("T").ParseGlob("templates/**/*.html"))
+var errorTemplate = template.Must(template.ParseFiles("templates/error/error.html"))
+
+// Handler error
+func handlerError(rw http.ResponseWriter, status int) {
+	rw.WriteHeader(status)
+	errorTemplate.Execute(rw, nil)
+}
+
+// Función de render template
+func renderTemplate(rw http.ResponseWriter, name string, data interface{}) {
+	err := templates.ExecuteTemplate(rw, name, data)
+
+	if err != nil {
+		// http.Error(rw, "No es posible retornar el template", http.StatusInternalServerError)
+		handlerError(rw)
+	}
+}
+
 // Handler
 func Index(rw http.ResponseWriter, r *http.Request) {
 
-	funciones := template.FuncMap{
-		"saludar": Saludar,
-	}
+	// funciones := template.FuncMap{
+	// 	"saludar": Saludar,
+	// }
 
 	// fmt.Fprintln(rw, "Hola Mundo")
-	template, err := template.New("index.html").Funcs(funciones).
-		ParseFiles("index.html")
+	// template := template.Must(template.New("index.html").ParseFiles("index.html", "base.html"))
 
-	if err != nil {
-		panic(err)
-	} else {
-		template.Execute(rw, nil)
-	}
+	usuario := Usuarios{"Juan", 25}
+
+	// template.Execute(rw, usuario)
+
+	renderTemplate(rw, "inde.html", usuario)
+}
+
+func Registro(rw http.ResponseWriter, r *http.Request) {
+
+	renderTemplate(rw, "registro.html", nil)
 }
 
 func main() {
@@ -50,6 +78,7 @@ func main() {
 	//Mux
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", Index)
+	mux.HandleFunc("/registro", Registro)
 
 	//Servidor
 	server := &http.Server{

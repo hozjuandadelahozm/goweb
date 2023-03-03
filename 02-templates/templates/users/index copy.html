@@ -8,8 +8,13 @@
 </head>
 <body>
 
-    <p>{{ saludar "Juan David" }}</p>
+    {{ template "header" }}
 
+    <h3>Hola {{ .UserName }}</h3>
+    <p>Edad: {{ .Edad }}</p>
+
+    {{ template "footer" }}
+    
 
     <!-- <h1>Bucles</h1>
 
