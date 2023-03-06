@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+</head>
+<body>
+
+    {{ template "header" }}
+
+    <h3>Hola {{ .UserName }}</h3>
+    <p>Edad: {{ .Edad }}</p>
+
+    {{ template "footer" }}
+    
+
+    <!-- <h1>Bucles</h1>
+
+    <ul>
+        {{ range .Cursos }}
+            <li>{{ .Nombre }}</li>
+        {{ end }}
+    </ul> -->
+
+    <!-- <h1>Usuarios</h1> -->
+
+    <!-- Operadores Logicos
+        not     !
+        and     &&
+        or      || 
+    -->
+
+    <!-- {{ if .Activo }}
+        <p>El usuario esta activo en la plataforma</p>
+    {{ else }}
+    <p>El usuario no esta activo en la plataforma</p>
+    {{ end }}
+
+    {{ if (and .Activo .Admin) }}
+        <p>Eres Administrador</p>
+    {{ end }} -->
+
+    <!-- Operadores condicionales
+        eq      ==
+        ne      !=
+        lt      <
+        le      <=
+        >       gt
+        >=      ge 
+    -->
+
+    <!-- {{ if gt .Edad 22}}
+        <p>El usuario tiene mas de 22 años</p>
+    {{ end }} -->
+
+    <!-- <h3>Hola {{ .UserName }}</h3>
+
+    <p>Edad: {{ .Edad }}</p> -->
+
+    <!-- Variables -->
+    <!-- {{ with $valor := "Mi variable" }}
+
+        <p>{{ $valor }}</p>
+    {{ end }} -->
+</body>
+</html>
