@@ -12,7 +12,7 @@ var db *sql.DB
 
 // Realiza la conexión
 func Connect() {
-	connStr := "user=root dbname=goweb_db sslmode=verify-full"
+	connStr := "user=root password=root host=localhost port=5050 dbname=goweb_db sslmode=verify-full"
 	conection, err := sql.Open("postgres", connStr)
 
 	if err != nil {
