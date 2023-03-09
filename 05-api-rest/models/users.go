@@ -1,12 +1,12 @@
 package models
 
-import "gopostgres/db"
+import "apirest/db"
 
 type User struct {
-	Id       int64
-	Username string
-	Password string
-	Email    string
+	Id       int64  `json:"id"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
 }
 
 type Users []User
@@ -17,7 +17,7 @@ const UserSchema string = `create table users(
 	password varchar(100) not null,
 	email varchar(50),
 	create_data timestamp default current_timestamp
-  );`
+);`
 
 // Construir usuario
 func NewUser(username, password, email string) *User {
@@ -25,7 +25,7 @@ func NewUser(username, password, email string) *User {
 	return user
 }
 
-//Crear usuario e insertar bd
+// Crear usuario e insertar bd
 func CreateUser(username, password, email string) *User {
 	user := NewUser(username, password, email)
 	user.Save()
@@ -54,7 +54,7 @@ func ListUsers() Users {
 	return users
 }
 
-//Obtener un registro
+// Obtener un registro
 func GetUser(id int) *User {
 	user := NewUser("", "", "")
 
@@ -67,13 +67,13 @@ func GetUser(id int) *User {
 	return user
 }
 
-//Actualizar registro
+// Actualizar registro
 func (user *User) update() {
 	sql := "UPDATE users SET username=$1, password=$2, email=$3 WHERE id=$4"
 	db.Exec(sql, user.Username, user.Password, user.Email, user.Id)
 }
 
-//Guardar o editar registro
+// Guardar o editar registro
 func (user *User) Save() {
 	if user.Id == 0 {
 		user.insert()
