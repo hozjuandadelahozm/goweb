@@ -12,8 +12,8 @@ var db *sql.DB
 
 // Realiza la conexión
 func Connect() {
-	connStr := "user=root password=root host=localhost port=5505 dbname=goweb_db sslmode=disable"
-	// connStr := "user=root password=root host=localhost port=54320 dbname=goweb_db sslmode=disable"
+	// connStr := "user=root password=root host=localhost port=5505 dbname=goweb_db sslmode=disable"
+	connStr := "user=root password=root host=localhost port=54320 dbname=goweb_db sslmode=disable"
 	conection, err := sql.Open("postgres", connStr)
 
 	if err != nil {
@@ -75,7 +75,9 @@ func TruncateTable(tableName string) {
 
 // Polimorfismo de Exec
 func Exec(query string, args ...any) (sql.Result, error) {
+	Connect()
 	result, err := db.Exec(query, args...)
+	Close()
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -84,7 +86,9 @@ func Exec(query string, args ...any) (sql.Result, error) {
 
 // Polimorfismo de Query
 func Query(query string, args ...any) (*sql.Rows, error) {
+	Connect()
 	rows, err := db.Query(query, args...)
+	Close()
 	if err != nil {
 		fmt.Println(err)
 	}

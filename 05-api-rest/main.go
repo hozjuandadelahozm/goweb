@@ -20,6 +20,6 @@ func main() {
 	mux.HandleFunc("/api/user/{id:[0-9]+}", handlers.UpdateUser).Methods("PUT")
 	mux.HandleFunc("/api/user/{id:[0-9]+}", handlers.DeleteUser).Methods("DELETE")
 
-	log.Fatal(http.ListenAndServe(":5000", mux))
+	log.Fatal(http.ListenAndServe(":4000", mux))
 
 }
